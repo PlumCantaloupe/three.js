@@ -56,7 +56,8 @@ var Reflector = function ( geometry, options ) {
 		minFilter: LinearFilter,
 		magFilter: LinearFilter,
 		format: RGBFormat,
-		stencilBuffer: false
+		stencilBuffer: false,
+		encoding: renderer.outputEncoding
 	};
 
 	var renderTarget = new WebGLRenderTarget( textureWidth, textureHeight, parameters );
@@ -155,9 +156,9 @@ var Reflector = function ( geometry, options ) {
 
 		// Render
 
-		if ( renderer.outputEncoding !== LinearEncoding ) {
+		if ( renderer.outputEncoding !== renderTarget.texture.encoding ) {
 
-			console.warn( 'THREE.Reflector: WebGLRenderer must use LinearEncoding as outputEncoding.' );
+			console.warn('THREE.Reflector: renderer outputEncoding(' + renderer.outputEncoding + ') and rendertarget encoding parameter(' + renderTarget.texture.encoding + ') must match.' );
 			scope.onBeforeRender = function () {};
 
 			return;
